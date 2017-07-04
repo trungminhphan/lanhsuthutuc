@@ -1,9 +1,9 @@
 <?php
 function __autoload($class_name) {
-    require_once('../lanhsu/cls/class.' . strtolower($class_name) . '.php');
+    require_once('lanhsu/cls/class.' . strtolower($class_name) . '.php');
 }
-require_once('../lanhsu/inc/functions.inc.php');
-require_once('../lanhsu/inc/config.inc.php');
+require_once('lanhsu/inc/functions.inc.php');
+require_once('lanhsu/inc/config.inc.php');
 $active_menu = isset($_GET['active']) ? $_GET['active']: 'index';
 $session = new SessionManager();
 $users_regis = new Users_Regis();
@@ -17,7 +17,7 @@ $users_regis = new Users_Regis();
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="all">
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="all">
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
+<script src="lanhsu/js/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="js/cufon-yui.js"></script>
 <script type="text/javascript" src="js/cufon-replace.js"></script>
 <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>

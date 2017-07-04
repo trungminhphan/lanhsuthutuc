@@ -1,11 +1,10 @@
 <?php require_once('header.php'); ?>
-<link href="../lanhsu/css/metro.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-icons.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-responsive.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-schemes.css" rel="stylesheet">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
-<script src="../lanhsu/js/metro.js"></script>
-
+<link href="lanhsu/css/metro.css" rel="stylesheet">
+<link href="lanhsu/css/metro-icons.css" rel="stylesheet">
+<link href="lanhsu/css/metro-responsive.css" rel="stylesheet">
+<link href="lanhsu/css/metro-schemes.css" rel="stylesheet">
+<script src="lanhsu/js/jquery-2.1.3.min.js"></script>
+<script src="lanhsu/js/metro.js"></script>
  <article id="content">
       <div class="wrapper">
         <div class="box1">
@@ -15,10 +14,10 @@
               <h5>Sở Ngoại Vụ tỉnh An Giang</h5>
               <ul style="list-style-type: disc; padding-left:30px;text-align:justify;">
               	<li>Địa chỉ: 8/18 Lý Thường Kiệt, phường Mỹ Bình, TP. Long Xuyên, tỉnh An Giang</li>
-              	<li>Điện thoại: +84 76 3953 936</li>
-              	<li>Fax: </li>
-              	<li>Email: </li>
-              	<li>Website: </li>
+              	<li>Điện thoại: +84 0296 3940103</li>
+              	<li>Fax:  +84 0296 3940104</li>
+              	<li>Email: songoaivu@angiang.gov.vn</li>
+              	<li>Website: http://songoaivu.angiang.gov.vn</li>
               </ul>
             </section>
           </div>

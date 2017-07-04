@@ -85,15 +85,15 @@ if(isset($_POST['submit'])){
 	}
 }
 ?>
-<link href="../lanhsu/css/metro.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-icons.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-responsive.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-schemes.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="../lanhsu/css/style.css">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
-<script type="text/javascript" src="../lanhsu/js/select2.min.js"></script>
-<script type="text/javascript" src="../lanhsu/js/metro.js"></script>
-<script type="text/javascript" src="../lanhsu/js/jquery.inputmask.js"></script>
+<link href="lanhsu/css/metro.css" rel="stylesheet">
+<link href="lanhsu/css/metro-icons.css" rel="stylesheet">
+<link href="lanhsu/css/metro-responsive.css" rel="stylesheet">
+<link href="lanhsu/css/metro-schemes.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="lanhsu/css/style.css">
+<script src="lanhsu/js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="lanhsu/js/select2.min.js"></script>
+<script type="text/javascript" src="lanhsu/js/metro.js"></script>
+<script type="text/javascript" src="lanhsu/js/jquery.inputmask.js"></script>
 <script type="text/javascript" src="js/abtc_regis.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

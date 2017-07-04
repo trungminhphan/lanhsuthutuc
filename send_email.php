@@ -1,5 +1,5 @@
 <?php require_once('header.php'); ?>
-<link href="../lanhsu/css/metro.css" rel="stylesheet">
+<link href="lanhsu/css/metro.css" rel="stylesheet">
  <article id="content" style="font-size: 120% !important;">
 	  <div class="wrapper">
 	    <div class="box1">

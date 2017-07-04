@@ -15,7 +15,9 @@ $tintuc_list = $tintuc->get_all_list();
 	        			$hinhanh = isset($tt['hinhanh'][0]['aliasname']) ? $tt['hinhanh'][0]['aliasname'] : '';
 	        			echo '<div class="wrapper tab-content" style="margin-top:10px;">';
 	        			echo '<p class="pad_bot2"><a href="chitiettintuc.php?id='.$tt['_id'].'"><strong>'.$tt['tieude'].'</strong></a></p>';
-	        			echo '<p class="pad_bot1">'.($hinhanh ? '<img src="'.$folder_files_public.$hinhanh.'" style="height:100px;float:left;margin-right:10px;"/>' : '') .$tt['mota'].'</p>';
+	        			if(file_exists($folder_files_public.$hinhanh)){
+	        				echo '<p class="pad_bot1">'.($hinhanh ? '<img src="'.$folder_files_public.$hinhanh.'" style="height:100px;float:left;margin-right:10px;"/>' : '') .$tt['mota'].'</p>';
+	        			}
 	        			echo '</div>';
 	        		}
 	        	}

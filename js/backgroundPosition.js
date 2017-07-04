@@ -17,7 +17,6 @@
 			return oldCurCSS(elem,'backgroundPositionX',force)+' '+oldCurCSS(elem,'backgroundPositionY',force)
 		}
 	}
-	
 	function toObj(s){
 		var r=s
 			.replace(/center/g,'50%')
@@ -27,9 +26,8 @@
 			.match(/(-?[0-9\.]+)(px|\%|em|pt)\s(-?[0-9\.]+)(px|\%|em|pt)/)
 		return {x:r[1],y:r[3],xu:r[2],yu:r[4]}
 	}
-	
-	/*
-	$.fx.step.backgroundPosition=function(fx){
+
+	/*$.fx.step.backgroundPosition=function(fx){
 		if(!fx.bgPosObj)
 			fx.bgPosObj={from:toObj($.curCSS(fx.elem,'backgroundPosition')),to:toObj(fx.end)}
 		fx.elem.style.backgroundPosition=(

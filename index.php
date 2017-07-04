@@ -22,8 +22,7 @@ $(window).load(function () {
                 right: '-700'
             }, 600, 'easeOutExpo')
         }
-    });
-    
+    });  
 })
 </script>
 <header>

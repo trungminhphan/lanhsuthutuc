@@ -17,10 +17,10 @@ if(isset($_POST['submit'])){
       }
 }
 ?>
-<link href="../lanhsu/css/metro.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-icons.css" rel="stylesheet">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
-<script src="../lanhsu/js/metro.js"></script>
+<link href="lanhsu/css/metro.css" rel="stylesheet">
+<link href="lanhsu/css/metro-icons.css" rel="stylesheet">
+<script src="lanhsu/js/jquery-2.1.3.min.js"></script>
+<script src="lanhsu/js/metro.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 	});
@@ -54,7 +54,7 @@ if(isset($_POST['submit'])){
       					<div class="cell colspan2"></div>
       					<div class="cell colspan2 padding-top-10 align-right">Mật khẩu</div>
       					<div class="cell colspan6 input-control text">
-      						<input type="password" name="password" id="password" value="" data-validate-func="minlength" data-validate-arg="6" data-validate-hint="Tối thiểu 6 ký tự" placeholder="Mật khẩu tối thiểu 6 ký tự" />
+      						<input type="password" name="password" id="password" value="" data-validate-func="minlength" data-validate-arg="6" data-validate-hint="Không đủ ký tự" placeholder="Mật khẩu" />
       						<span class="input-state-error mif-warning"></span><span class="input-state-success mif-checkmark"></span>
       					</div>
       				</div>

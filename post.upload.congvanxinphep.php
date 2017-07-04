@@ -1,8 +1,8 @@
 <?php
 function __autoload($class_name) {
-    require_once('../lanhsu/cls/class.' . strtolower($class_name) . '.php');
+    require_once('lanhsu/cls/class.' . strtolower($class_name) . '.php');
 }
-require_once('../lanhsu/inc/config.inc.php');
+require_once('lanhsu/inc/config.inc.php');
 $count = 0;$donvi = new DonVi();
 $id_donvi_xinphep_1 = isset($_POST['id_donvi_xinphep_1']) ? $_POST['id_donvi_xinphep_1'] : '';
 $id_donvi_xinphep_2 = isset($_POST['id_donvi_xinphep_2']) ? $_POST['id_donvi_xinphep_2'] : '';

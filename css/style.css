@@ -261,19 +261,19 @@ header {
 	letter-spacing:0
 }
 #banner1 {
-	background:url(../images/banner1.png) 0 0 no-repeat
+	background:url(../images/banner1_active.png) 0 0 no-repeat
 }
 #banner1 a {
 	background:url(../images/banner1_active.png) -250px 0 no-repeat
 }
 #banner2 {
-	background:url(../images/banner2.png) 0 0 no-repeat
+	background:url(../images/banner2_active.png) 0 0 no-repeat
 }
 #banner2 a {
 	background:url(../images/banner2_active.png) -250px 0 no-repeat
 }
 #banner3 {
-	background:url(../images/banner3.png) 0 0 no-repeat
+	background:url(../images/banner3_active.png) 0 0 no-repeat
 }
 #banner3 a {
 	background:url(../images/banner3_active.png) -250px 0 no-repeat

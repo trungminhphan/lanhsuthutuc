@@ -37,10 +37,10 @@ if(isset($_POST['submit'])){
       }*/
 }
 ?>
-<link href="../lanhsu/css/metro.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-icons.css" rel="stylesheet">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
-<script src="../lanhsu/js/metro.js"></script>
+<link href="lanhsu/css/metro.css" rel="stylesheet">
+<link href="lanhsu/css/metro-icons.css" rel="stylesheet">
+<script src="lanhsu/js/jquery-2.1.3.min.js"></script>
+<script src="lanhsu/js/metro.js"></script>
 <article id="content" style="font-size: 17px !important;">
 	<div class="wrapper">
 	    <div class="box1">

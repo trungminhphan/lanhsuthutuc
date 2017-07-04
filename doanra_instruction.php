@@ -1,8 +1,8 @@
 <?php require_once('header.php'); ?>
-<link href="../lanhsu/css/metro.css" rel="stylesheet">
-<link href="../lanhsu/css/metro-icons.css" rel="stylesheet">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
-<script src="../lanhsu/js/metro.js"></script>
+<link href="lanhsu/css/metro.css" rel="stylesheet">
+<link href="lanhsu/css/metro-icons.css" rel="stylesheet">
+<script src="lanhsu/js/jquery-2.1.3.min.js"></script>
+<script src="lanhsu/js/metro.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#dongy").hide();

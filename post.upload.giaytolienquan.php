@@ -1,9 +1,9 @@
 <?php
 function __autoload($class_name) {
-    require_once('../lanhsu/cls/class.' . strtolower($class_name) . '.php');
+    require_once('lanhsu/cls/class.' . strtolower($class_name) . '.php');
 }
-require_once('../lanhsu/inc/config.inc.php');
-require_once('../lanhsu/inc/functions.inc.php');
+require_once('lanhsu/inc/config.inc.php');
+require_once('lanhsu/inc/functions.inc.php');
 $id_giaytolienquan = isset($_POST['select_giaytolienquan']) ? $_POST['select_giaytolienquan'] : '';
 if($id_giaytolienquan) $ten_dinh_kem = $arr_giaytolienquan[$id_giaytolienquan];
 else $ten_dinh_kem = '';
