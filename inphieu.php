@@ -33,17 +33,17 @@ if($act == 'doanra'){
 	///doanra
 	$doanra = new DoanRa_Regis();
 	$doanra->masohoso = $masohoso; $a = $doanra->get_one_mshs();
-	$ngaydangky = isset($a['date_post']) ? date("d/m/Y", $a['date_post']->sec) : '';
+	$ngaydangky = isset($a['date_post']) ? date("d/m/Y H:i", $a['date_post']->sec) : '';
 } else if($act == 'doanvao'){
 	///doanvao
 	$doanvao = new DoanVao_Regis();
 	$doanvao->masohoso = $masohoso; $a = $doanvao->get_one_mshs();
-	$ngaydangky = isset($a['date_post']) ? date("d/m/Y", $a['date_post']->sec) : '';
+	$ngaydangky = isset($a['date_post']) ? date("d/m/Y H:i", $a['date_post']->sec) : '';
 } else {
 	///abct
 	$abtc = new ABTC_Regis();
 	$abtc->masohoso = $masohoso; $a = $abtc->get_one_mshs();
-	$ngaydangky = isset($a['date_post']) ? date("d/m/Y", $a['date_post']->sec) : '';
+	$ngaydangky = isset($a['date_post']) ? date("d/m/Y H:i", $a['date_post']->sec) : '';
 }
 ?>
 <!DOCTYPE html>
@@ -53,7 +53,13 @@ if($act == 'doanra'){
 <meta charset="utf-8">
 <link href="../lanhsu/css/metro.css" rel="stylesheet">
 <link href="../lanhsu/css/metro-icons.css" rel="stylesheet">
+<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
 <script src="../lanhsu/js/metro.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		window.print();
+	});
+</script>
 </head>
 <body>
 <div style="max-width: 750px; margin: auto; border:3px solid #000;padding:20px;">
@@ -102,7 +108,6 @@ if($act == 'doanra'){
 </table>
 </div>
 <div class="align-center">
-	
 </div>
 </body>
 </html>

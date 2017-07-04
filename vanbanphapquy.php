@@ -28,7 +28,6 @@ if(isset($_GET['submit'])){
 <link href="../lanhsu/css/metro-responsive.css" rel="stylesheet">
 <link href="../lanhsu/css/metro-schemes.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="../lanhsu/css/style.css">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
 <script src="../lanhsu/js/metro.js"></script>
 <article id="content">
 	<div class="wrapper">

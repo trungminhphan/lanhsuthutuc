@@ -5,6 +5,7 @@ if(!$users_regis->isLoggedIn()){
 $doanvao_regis = new DoanVao_Regis();$canbo = new CanBo(); $donvi = new DonVi(); $chucvu = new ChucVu();
 $csrf = new CSRF_Protect();
 $donvi = new DonVi();$donvi_list = $donvi->get_all_list_regis();
+$dmdoanvao = new DMDoanVao();
 $id_donvi_tiep='';
 $id_user = $users_regis->get_userid();
 if(isset($_POST['submit'])){
@@ -31,7 +32,13 @@ if(isset($_POST['submit'])){
 		'attachments' => $filecongvanxinphep,
 		'ngayky' => $ngaykycongvanxinphep ? new MongoDate(convert_date_dd_mm_yyyy($ngaykycongvanxinphep)) : '');
 
-	$id_dmdoanvao = isset($_POST['id_dmdoanvao']) ? $_POST['id_dmdoanvao'] : '';
+	//$id_dmdoanvao = isset($_POST['id_dmdoanvao']) ? $_POST['id_dmdoanvao'] : '';
+	$id_dmdoanvao = new MongoId();
+	$tendoan = isset($_POST['tendoan']) ? $_POST['tendoan'] : '';
+	$dmdoanvao->id = $id_dmdoanvao;$dmdoanvao->ten = $tendoan;$dmdoanvao->id_user = $id_user;
+	$dmdoanvao->insert();
+
+	$id_mucdich = isset($_POST['id_mucdich']) ? $_POST['id_mucdich'] : '';
 	$id_donvi_duocphep = isset($_POST['id_donvi_duocphep']) ? $_POST['id_donvi_duocphep'] : '';
 	$tencongvanduocphep = isset($_POST['tencongvanduocphep']) ? $_POST['tencongvanduocphep'] : '';
 	$ngaybanhanhcongvanduocphep = isset($_POST['ngaybanhanhcongvanduocphep']) ? $_POST['ngaybanhanhcongvanduocphep'] : '';
@@ -43,19 +50,26 @@ if(isset($_POST['submit'])){
 	if($_POST["captcha"]==$users_regis->get_capcha()){
 		//$masohoso = strtoupper(uniqid());
 		$stt = $doanvao_regis->get_maxstt();
-		$masohoso = date("Y") . '-' . $stt;
+		$masohoso = date("Y") . '-' . $stt .'-NC';
 		$doanvao_regis->stt = $stt;
 		$doanvao_regis->masohoso = $masohoso;
 		$doanvao_regis->congvanxinphep = $congvanxinphep;
 		$doanvao_regis->id_dmdoanvao = $id_dmdoanvao;
+		$doanvao_regis->id_mucdich = $id_mucdich;
 		$doanvao_regis->ngayden = $ngayden != '' ? new MongoDate(convert_date_dd_mm_yyyy($ngayden)) : '';
 		$doanvao_regis->ngaydi = $ngaydi != '' ? new MongoDate(convert_date_dd_mm_yyyy($ngaydi)) : '';
 		$doanvao_regis->noidung = $noidung;
 		$doanvao_regis->ghichu = $ghichu;
-		$doanvao_regis->status = 0;
 		$doanvao_regis->hanxuly = new MongoDate();
 		$doanvao_regis->ngayxuly = '';
 		$doanvao_regis->id_user = $id_user;
+		$arr_tinhtrang = array(
+			't' => 0,
+			'noidung' => 'Đang xử lý',
+			'date_post' => new MongoDate(),
+			'id_user' => new MongoId($id_user)
+		);
+		$doanvao_regis->status = $arr_tinhtrang;
 		if($doanvao_regis->insert()){
 			transfers_to('success_regis.html?masohoso='.$masohoso . '&act=doanvao');
 		} else {
@@ -71,7 +85,6 @@ if(isset($_POST['submit'])){
 <link href="../lanhsu/css/metro-responsive.css" rel="stylesheet">
 <link href="../lanhsu/css/metro-schemes.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="../lanhsu/css/style.css">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
 <script src="../lanhsu/js/metro.js"></script>
 <script type="text/javascript" src="../lanhsu/js/select2.min.js"></script>
 <script type="text/javascript" src="../lanhsu/js/jquery.inputmask.js"></script>
@@ -145,20 +158,27 @@ if(isset($_POST['submit'])){
 							}
 						?>
 					</div>
-					<div class="row cells12" >
+					<div class="row cells12">
 						<div class="cell colspan2 padding-top-10 align-right">Tên đoàn</div>
-						<div class="cell colspan4 input-control select">
-						<select name="id_dmdoanvao" id="id_dmdoanvao" class="select2">
+						<div class="cell colspan10 input-control text">
+							<input type="text" name="tendoan" id="tendoan" value="<?php echo isset($tendoan) ? $tendoan : ''; ?>" placeholder="Tên đoàn" data-validate-func="required"/>
+							<span class="input-state-error mif-warning"></span><span class="input-state-success mif-checkmark"></span>
+						</div>
+					</div>
+					<div class="row cells12">
+						<div class="cell colspan2 padding-top-10 align-right">Mục đích</div>
+						<div class="cell colspan4 input-control select" data-role="select">
+							<select name="id_mucdich" id="id_mucdich" class="select2">
 							<?php
-								$dmdoanvao = new DMDoanVao();
-								$dmdoanvao_list = $dmdoanvao->get_all_list();
-								if($dmdoanvao_list){
-									foreach ($dmdoanvao_list as $dm) {
-										echo '<option value="'.$dm['_id'].'"'.($dm['_id']==$id_dmdoanvao ? ' selected' : '').'>'.$dm['ten'].'</option>';
+								$mucdich = new MucDich();$mucdich_list = $mucdich->get_all_list();
+								if($mucdich_list){
+									foreach ($mucdich_list as $md) {
+										echo '<option value="'.$md['_id'].'"'.($id_mucdich==$md['_id']?' selected' : '').'>'.$md['ten'].'</option>';
 									}
 								}
 							?>
-						</select>
+							<div class="cell colspan3 padding-top-10 align-right">Mục đích</div>	
+							</select>
 						</div>
 						<div class="cell colspan3 input-control text" data-role="datepicker" data-scheme="darcula" data-format="dd/mm/yyyy">
 							<input type="text" name="ngayden" id="ngayden" value="<?php echo isset($ngayden) ? $ngayden : '';?>" placeholder="Ngày đến." data-inputmask="'alias': 'date'" class="ngaythangnam"/>

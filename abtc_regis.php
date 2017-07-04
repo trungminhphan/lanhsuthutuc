@@ -57,7 +57,7 @@ if(isset($_POST['submit'])){
 	if($_POST["captcha"]==$_SESSION["captcha_code"]){
 		$masohoso = strtoupper(uniqid());
 		$stt = $abtc_regis->get_maxstt();
-		$masohoso = date("Y") . '-' . $stt;
+		$masohoso = date("Y") . '-' . $stt.'-ABTC';
 		$abtc_regis->stt = $stt;
 		$abtc_regis->masohoso = $masohoso;	
 		$abtc_regis->congvanxinphep = $congvanxinphep;
@@ -68,6 +68,13 @@ if(isset($_POST['submit'])){
 		$abtc_regis->giaytolienquan = $giaytolienquan;
 		$abtc_regis->ghichu = $ghichu;
 		$abtc_regis->id_user = $id_user;
+		$arr_tinhtrang = array(
+			't' => 0,
+			'noidung' => 'Đang xử lý',
+			'date_post' => new MongoDate(),
+			'id_user' => new MongoId($id_user)
+		);
+		$abtc_regis->status = $arr_tinhtrang;
 		if($abtc_regis->insert()){
 			transfers_to('success_regis.html?masohoso=' . $masohoso);
 		} else {

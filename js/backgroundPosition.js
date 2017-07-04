@@ -28,6 +28,7 @@
 		return {x:r[1],y:r[3],xu:r[2],yu:r[4]}
 	}
 	
+	/*
 	$.fx.step.backgroundPosition=function(fx){
 		if(!fx.bgPosObj)
 			fx.bgPosObj={from:toObj($.curCSS(fx.elem,'backgroundPosition')),to:toObj(fx.end)}
@@ -38,5 +39,5 @@
 			+parseInt(fx.bgPosObj.from.y/1+(fx.bgPosObj.to.y-fx.bgPosObj.from.y)*fx.pos)
 			+fx.bgPosObj.to.yu
 		)
-	}
+	}*/
 })(jQuery)

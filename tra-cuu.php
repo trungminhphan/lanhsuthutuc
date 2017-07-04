@@ -8,27 +8,28 @@ $loaihoso='';
 if(isset($_GET['submit'])){
 	$arr_query = array();
 	$masohoso = isset($_GET['masohoso']) ? $_GET['masohoso'] : '';
-	$loaihoso = isset($_GET['loaihoso']) ? $_GET['loaihoso'] : '';
-      if($loaihoso == 'doanra'){
-            $doanra = new DoanRa_Regis();
-            $doanra->masohoso = $masohoso;
-            $dr = $doanra->get_one_mshs();
-            if($dr && $dr['status']) $status = $dr['status'];
-      }
-      if($loaihoso == 'doanvao'){
-            $doanvao = new DoanVao_Regis();
-            $doanvao->masohoso = $masohoso;
-            $dv = $doanvao->get_one_mshs();
-            if($dv && $dv['status']) $status = $dv['status'];
-      }
+	//$loaihoso = isset($_GET['loaihoso']) ? $_GET['loaihoso'] : '';
+  $a = explode("-", $masohoso);
+  $loaihoso = end($a);
+  if($loaihoso == 'XC'){
+    $doanra = new DoanRa_Regis();
+    $doanra->masohoso = $masohoso;
+    $dr = $doanra->get_one_mshs();
+    if($dr && $dr['status']) $status = $dr['status'];
+  }
+  if($loaihoso == 'NC'){
+    $doanvao = new DoanVao_Regis();
+    $doanvao->masohoso = $masohoso;
+    $dv = $doanvao->get_one_mshs();
+    if($dv && $dv['status']) $status = $dv['status'];
+  }
 
-      if($loaihoso == 'abtc'){
-            $abtc = new ABTC_Regis();
-            $abtc->masohoso = $masohoso;
-            $a = $abtc->get_one_mshs();
-            if($a && $a['status']) $status = $a['status'];
-      }
-
+  if($loaihoso == 'ABTC'){
+    $abtc = new ABTC_Regis();
+    $abtc->masohoso = $masohoso;
+    $a = $abtc->get_one_mshs();
+    if($a && $a['status']) $status = $a['status'];
+  }
 }
 ?>
 <link href="../lanhsu/css/metro.css" rel="stylesheet">
@@ -36,7 +37,6 @@ if(isset($_GET['submit'])){
 <link href="../lanhsu/css/metro-responsive.css" rel="stylesheet">
 <link href="../lanhsu/css/metro-schemes.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="../lanhsu/css/style.css">
-<script src="../lanhsu/js/jquery-2.1.3.min.js"></script>
 <script src="../lanhsu/js/metro.js"></script>
 <style type="text/css">
 .timeline {
@@ -131,30 +131,17 @@ if(isset($_GET['submit'])){
       			<div class="grid">
       				<div class="row cells12">
       					<div class="cell colspan2 padding-top-10 align-right">Mã số hồ sơ</div>
-						<div class="cell colspan4 input-control text">
-							<input type="text" name="masohoso" id="masohoso" value="<?php echo isset($masohoso) ? $masohoso: ''; ?>">
-						</div>
-						<div class="cell colspan2 padding-top-10 align-right">Loại hồ sơ</div>
-						<div class="cell colspan4 input-control select">
-							<select name="loaihoso" id="loaihoso" class="select2">
-								<option value="doanra" <?php echo $loaihoso=='doanra' ? ' selected': ''; ?>>Xuất cảnh</option>}
-								<option value="doanvao" <?php echo $loaihoso=='doanvao' ? ' selected': ''; ?>>Nhập cảnh</option>}
-								<option value="abtc" <?php echo $loaihoso=='abtc' ? ' selected': ''; ?>>ABTC</option>
-							</select>
-						</div>
+    						<div class="cell colspan6 input-control text">
+    							<input type="text" name="masohoso" id="masohoso" value="<?php echo isset($masohoso) ? $masohoso: ''; ?>">
+    						</div>
+						    <div class="cell colspan2 align-center">
+                  <button name="submit" id="submit" value="OK" class="button bg-black fg-white"><span class="mif-search"></span> Tìm</button>
+                </div>
       				</div>
-      				<div class="row cells12">
-						<div class="cell colspan12 align-center">
-							<button name="submit" id="submit" value="OK" class="button bg-black fg-white"><span class="mif-search"></span> Tìm</button>
-						</div>
-					</div>
       			</div>
       		</form>
-      		<?php if(isset($status) && $status): ?>
-      		<hr />
-      		<h2><strong>K</strong>ết<span> quả tìm kiếm</span></h2>
-      		<?php
-                  if(isset($status) && $status){
+      		<?php if(isset($status) && $status): 
+      		      if(isset($status) && $status){
                         echo '<div class="bar"></div>';
                         echo '<div class="timeline">';
                         $count = count($status)-1;
@@ -164,7 +151,7 @@ if(isset($_GET['submit'])){
                               else if($t==4) $class ='failed';
                               else $class= '';
                               echo '<div class="entry '.$class.'">';
-                              echo date("d/m/Y", $status[$count]['date_post']->sec);
+                              echo date("d/m/Y H:i", $status[$count]['date_post']->sec);
                               echo '<br /><b>'. $arr_tinhtrang[$t].'</b>';
                               echo '<br /><br />' . $status[$count]['noidung'];
                               echo '</div>';
