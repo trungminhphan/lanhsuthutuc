@@ -181,7 +181,7 @@ header {
 }
 #menu li a {
 	display:block;
-	padding:0 20px;
+	padding:0 10px;
 	height:42px;
 	font-size:18px;
 	color:#dad6cc;
@@ -264,19 +264,19 @@ header {
 	background:url(../images/banner1_active.png) 0 0 no-repeat
 }
 #banner1 a {
-	background:url(../images/banner1_active.png) -250px 0 no-repeat
+	background:url(../images/banner1_active.png) 0 0 no-repeat
 }
 #banner2 {
 	background:url(../images/banner2_active.png) 0 0 no-repeat
 }
 #banner2 a {
-	background:url(../images/banner2_active.png) -250px 0 no-repeat
+	background:url(../images/banner2_active.png) 0 0 no-repeat
 }
 #banner3 {
 	background:url(../images/banner3_active.png) 0 0 no-repeat
 }
 #banner3 a {
-	background:url(../images/banner3_active.png) -250px 0 no-repeat
+	background:url(../images/banner3_active.png) 0 0 no-repeat
 }
 .pagination #banner1:hover, .pagination #banner1.current, .pagination #banner2:hover, .pagination #banner2.current, .pagination #banner3:hover, .pagination #banner3.current {
 }

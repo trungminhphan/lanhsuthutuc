@@ -2,7 +2,7 @@
 require_once('header.php');
 $url = isset($_GET['url']) ? $_GET['url'] : '';
 if($users_regis->isLoggedIn()){
-    transfers_to('index.php');   
+    transfers_to('index.html');   
 }
 
 if(isset($_POST['submit'])){
@@ -11,7 +11,7 @@ if(isset($_POST['submit'])){
       $url = isset($_POST['url']) ? $_POST['url'] : '';
       if($users_regis->authenticate($email, $password)) {
             if($url) transfers_to($url);
-            else transfers_to("index.php");
+            else transfers_to("index.html");
       } else {
         $msg = 'Không thể đăng nhập, vui lòng kiểm tra Email và Mật khẩu';
       }
@@ -62,7 +62,7 @@ if(isset($_POST['submit'])){
 						<div class="cell colspan12 align-center">
 							<button name="submit" id="submit" value="OK" class="button bg-black fg-white"><span class="mif-checkmark"></span> Đăng nhập</button>
                                           <a class="button bg-black fg-white" href="register.html"><span class="mif-user-plus"></span> Đăng ký tài khoản</a>
-							<a href="index.php" class="button"><span class="mif-keyboard-return"></span> Trở về</a>
+							<a href="index.html" class="button"><span class="mif-keyboard-return"></span> Trở về</a>
 						</div>
 					</div>
       			</div>

@@ -8,7 +8,6 @@ $active_menu = isset($_GET['active']) ? $_GET['active']: 'index';
 $session = new SessionManager();
 $users_regis = new Users_Regis();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +24,6 @@ $users_regis = new Users_Regis();
 <script type="text/javascript" src="js/tms_presets.js"></script>
 <script type="text/javascript" src="js/backgroundPosition.js"></script>
 <script type="text/javascript" src="js/atooltip.jquery.js"></script>
-
 <!--[if lt IE 9]>
 <script type="text/javascript" src="js/html5.js"></script>
 <style type="text/css">.box1 figure{behavior:url("js/PIE.htc");}</style>
@@ -39,6 +37,7 @@ $users_regis = new Users_Regis();
 	    <h1><a href="index.html" id="logo">Lãnh sự</a></h1>
 	    <nav>
 	      <ul id="menu">
+	      	<li <?php echo $active_menu == 'index' ? 'id="menu_active"' : ''; ?>><a href="index.html?active=index">Trang chủ</a></li>
 	        <li <?php echo $active_menu == 'gioi_thieu' ? 'id="menu_active"' : ''; ?>><a href="gioi-thieu.html?active=gioi_thieu">Giới thiệu</a></li>
 	        <li <?php echo $active_menu == 'tin_lanh_su' ? 'id="menu_active"' : ''; ?>><a href="tinlanhsu.html?active=tin_lanh_su">Tin lãnh sự</a></li>
 	        <li <?php echo $active_menu == 'vanban' ? 'id="menu_active"' : ''; ?>><a href="vanbanphapquy.html?active=vanban">Văn bản</a></li>

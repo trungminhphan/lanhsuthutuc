@@ -8,6 +8,7 @@ if(!$users_regis->isLoggedIn()){
 }
 $masohoso = isset($_GET['masohoso']) ? $_GET['masohoso'] : '';
 $act = isset($_GET['act']) ? $_GET['act'] : '';
+$edit = isset($_GET['edit']) ? $_GET['edit'] : '';
 $csrf = new CSRF_Protect();
 $token = $csrf->getToken();
 ?>
@@ -24,7 +25,11 @@ $token = $csrf->getToken();
 </script>
 <article id="content">
     <div class="box1">
+      <?php if($edit == 'edit'): ?>
+        <h2><strong>B</strong>ổ sung hồ sơ <span> thành công</span></h2>
+      <?php else: ?>
         <h2><strong>Đ</strong>ăng ký <span> thành công</span></h2>
+      <?php endif; ?>
         <hr class="bg-black" />
     	<h3 style="color:#000;"><span class="mif-barcode"></span> Mã số hồ sơ của bạn là: <b><?php echo $masohoso; ?></b></h3>
       	<p style="clear: both;"><b>Vui lòng ghi nhận Mã số hồ sơ, khi đến nhận kết quả chỉ cần thông tin mã số hồ sơ để tra cứu trả kết quả.</b></p>        

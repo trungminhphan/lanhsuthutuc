@@ -18,7 +18,7 @@ $users_regis->id = $id_user;
 $u = $users_regis->get_one();
 if(isset($u['canbo']['id_canbo']) && $u['canbo']['id_canbo']){
 	$canbo->id = $u['canbo']['id_canbo']; $cb = $canbo->get_one();	
-	$hoten = $cb['hotent'];
+	$hoten = $cb['hoten'];
 } else {
 	$hoten = $u['hoten'];
 }

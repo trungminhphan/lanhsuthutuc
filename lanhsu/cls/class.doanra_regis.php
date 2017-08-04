@@ -59,6 +59,22 @@ class DoanRa_Regis{
 		return $this->_collection->insert($query);
 	}
 
+	public function edit(){
+		$query = array('$set'=> array(
+			'congvanxinphep' => $this->congvanxinphep,
+			'ngaydi' => $this->ngaydi,
+			'ngayve' => $this->ngayve,
+			'songay' => $this->songay,
+			'id_quocgia' => $this->id_quocgia,
+			'id_mucdich' => new MongoId($this->id_mucdich),
+			'id_kinhphi' => new MongoId($this->id_kinhphi),
+			'noidung' => $this->noidung,
+			'ghichu' => $this->ghichu,
+			'id_user' => new MongoId($this->id_user)));
+		$condition = array('_id' => new MongoId($this->id));
+		return $this->_collection->update($condition, $query);
+	}
+
 	public function set_status($status){
 		$query = array('$set' => array('status' => $status));
 		$condition = array('_id' => new MongoId($this->id));

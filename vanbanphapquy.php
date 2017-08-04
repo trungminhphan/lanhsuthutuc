@@ -6,15 +6,13 @@ $linhvuc_list = $linhvuc->get_all_list();
 if(isset($_GET['submit'])){
 	$arr_query = array();
 	$id_linhvuc = isset($_GET['id_linhvuc']) ? $_GET['id_linhvuc'] : '';
-	$loaivanban = isset($_GET['loaivanban']) ? $_GET['loaivanban'] : '';
+	//$loaivanban = isset($_GET['loaivanban']) ? $_GET['loaivanban'] : '';
 	$sovanban = isset($_GET['sovanban']) ? $_GET['sovanban'] : '';
 	$trichyeu = isset($_GET['trichyeu']) ? $_GET['trichyeu'] : '';
-
-	if($id_linhvuc) array_push($arr_query, array('id_linhvuc' => new MongoId($id_linhvuc)));
-	if($loaivanban) array_push($arr_query, array('loaivanban' => $loaivanban));
+	if($id_linhvuc) array_push($arr_query, array('id_linhvuc' => $id_linhvuc));
+	//if($loaivanban) array_push($arr_query, array('loaivanban' => $loaivanban));
 	if($sovanban) array_push($arr_query, array('sovanban' => new MongoRegex('/'.$sovanban.'/i')));
 	if($trichyeu) array_push($arr_query, array('sovanban' => new MongoRegex('/'.$trichyeu.'/i')));
-
 	if(count($arr_query) > 0){
 		$query = array('$and' => $arr_query);
 		$vanban_list = $vanbanphapquy->get_list_condition($query);
@@ -38,6 +36,10 @@ if(isset($_GET['submit'])){
       			<input type="hidden" name="active" id="active" value="vanban">
       			<div class="grid">
       				<div class="row cells12">
+                                    <div class="cell colspan2 padding-top-10">Số văn bản</div>
+                                    <div class="cell colspan4 input-control text">
+                                          <input type="text" name="sovanban" id="sovanban" value="<?php echo isset($sovanban) ? $sovanban: ''; ?>">
+                                    </div>
       					<div class="cell colspan2 padding-top-10">Lĩnh vực</div>
 						<div class="cell colspan4 input-control select">
 							<select name="id_linhvuc" id="id_linhvuc" class="select2">
@@ -52,24 +54,20 @@ if(isset($_GET['submit'])){
 							?>
 							</select>
 						</div>
-						<div class="cell colspan2 padding-top-10">Loại văn bản</div>
+						<!--<div class="cell colspan2 padding-top-10">Loại văn bản</div>
 						<div class="cell colspan4 input-control select">
 							<select name="loaivanban" id="loaivanban" class="select2">
 							<?php
-							foreach ($arr_loaivanban as $lvb) {
+							/*foreach ($arr_loaivanban as $lvb) {
 								echo '<option value="'.$lvb.'"'.($lvb == $loaivanban ? ' selected' : '').'>'.$lvb.'</option>';
-							}
+							}*/
 							?>
 							</select>
-						</div>
+						</div>-->
       				</div>
       				<div class="row cells12">
-      					<div class="cell colspan2 padding-top-10">Số văn bản</div>
-						<div class="cell colspan4 input-control text">
-							<input type="text" name="sovanban" id="sovanban" value="<?php echo isset($sovanban) ? $sovanban: ''; ?>">
-						</div>
-						<div class="cell colspan2 padding-top-10">Trích yêu</div>
-						<div class="cell colspan4 input-control text">
+						<div class="cell colspan2 padding-top-10">Trích yếu</div>
+						<div class="cell colspan10 input-control text">
 							<input type="text" name="trichyeu" id="trichyeu" value="<?php echo isset($trichyeu) ? $trichyeu: ''; ?>">
 						</div>
       				</div>
@@ -83,25 +81,49 @@ if(isset($_GET['submit'])){
       		<?php if(isset($vanban_list) && $vanban_list->count() > 0): ?>
       		<hr />
       		<h2><strong>K</strong>ết<span> quả tìm kiếm</span></h2>
+      		<table class="table striped hovered border bordered">
+      			<thead>
+      				<tr>
+      					<th>STT</th>
+      					<th>Số văn bản</th>
+      					<th>Trích yếu</th>
+      					<th>Cơ quan ban hành</th>
+      					<th>Ngày ký</th>
+      					<th>Toàn văn</th>
+      				</tr>
+      			</thead>
+      			<tbody>
       		<?php
+      		$i = 1;
       		foreach ($vanban_list as $vb) {
-      			$linhvuc->id = $vb['id_linhvuc']; $lv = $linhvuc->get_one();
+      			$lv = $linhvuc->get_linhvuc($vb['id_linhvuc']);
       			$donvi->id = $vb['id_coquanbanhanh']; $cq = $donvi->get_one();
-      			echo '<strong>'.$vb['sovanban'] . ' - ' . $vb['trichyeu'] . '</strong>';
-      			echo '<br />Lĩnh vực: <b>' . $lv['ten'] . '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-      			echo '<br />Loại văn bản: <b>' . $vb['loaivanban'] . '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-      			echo '<br />Cơ quan ban hành: <b>' . $cq['ten'] . '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-      			echo '<br />Ngày ban hành: <b>' . date("d/m/Y", $vb['ngaybanhanh']->sec) . '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-      			echo '<br /> Đính kèm: ';
-      			if($vb['dinhkem']){
+      			echo '<tr>';
+      			echo '<td>'.$i.'</td>';
+      			echo '<td>'.$vb['sovanban'].'</td>';
+      			echo '<td>'.$vb['trichyeu'].'</td>';
+      			echo '<td>'.$cq['ten'].'</td>';
+      			echo '<td>'.date("d/m/Y", $vb['ngaybanhanh']->sec).'</td>';
+      			echo '<td>';
       				foreach ($vb['dinhkem'] as $dk) {
-      					echo '<span class="tag alert"><a href="'.$folder_files_public.$dk['aliasname'].'" class="fg-white"><span class="mif-attachment"></span> '.$dk['filename'].'</span></a> &nbsp;';
+      					echo '<span class="tag alert"><a href="'.$folder_files_public.$dk['aliasname'].'" class="fg-white" target="_blank"><span class="mif-attachment"></span> '.$dk['filename'].'</span></a> &nbsp;';
       				}
-      			}
-      			echo '<hr class="bg-black" />';
+      			echo '</td>';
+      			echo '</tr>'; $i++;
+      			//echo '<strong>'.$vb['sovanban'] . ' - ' . $vb['trichyeu'] . '</strong>';
+      			//echo '<br />Lĩnh vực: <b>' . $lv . '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+      			//echo '<br />Loại văn bản: <b>' . implode(", ",$vb['loaivanban']) . '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+      			//echo '<br />Cơ quan ban hành: <b>' . $cq['ten'] . '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+      			//echo '<br />Ngày ban hành: <b>' . date("d/m/Y", $vb['ngaybanhanh']->sec) . '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+      			//echo '<br /> Đính kèm: ';
+      			//if($vb['dinhkem']){
+      				
+      			//}
+      			//echo '<hr class="bg-black" />';
       		}
       		?>
-      		<?php else: ?>
+      		</tbody></table>
+      		<?php elseif(isset($_GET['submit'])): ?>
       			<h2>Không tìm thấy</h2>
       		<?php endif; ?>
       	</div>

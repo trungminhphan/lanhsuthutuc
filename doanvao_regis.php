@@ -134,7 +134,7 @@ if(isset($_POST['submit'])){
 							<input type="text" name="ngaykycongvanxinphep" id="ngaykycongvanxinphep" value="<?php echo isset($ngaykycongvanxinphep) ? $ngaykycongvanxinphep : ''; ?>" placeholder="Ngày ký" data-inputmask="'alias': 'date'" class="ngaythangnam"/>
 						</div>
 						<div class="cell input-control file upload" data-role="input">
-							<input type="file" name="dinhkem_filecongvanxinphep[]" multiple="multiple" class="dinhkem_filecongvanxinphep" placeholder="Đính kèm" accept="*" />
+							<input type="file" name="dinhkem_filecongvanxinphep[]" multiple="multiple" class="dinhkem_filecongvanxinphep" placeholder="Đính kèm" accept="application/pdf" />
 						</div>
 					</div>
 					<div id="files_congvanxinphep">
@@ -161,7 +161,7 @@ if(isset($_POST['submit'])){
 					<div class="row cells12">
 						<div class="cell colspan2 padding-top-10 align-right">Tên đoàn</div>
 						<div class="cell colspan10 input-control text">
-							<input type="text" name="tendoan" id="tendoan" value="<?php echo isset($tendoan) ? $tendoan : ''; ?>" placeholder="Tên đoàn" data-validate-func="required"/>
+							<input type="text" name="tendoan" id="tendoan" value="<?php echo isset($tendoan) ? $tendoan : ''; ?>" placeholder="" data-validate-func="required"/>
 							<span class="input-state-error mif-warning"></span><span class="input-state-success mif-checkmark"></span>
 						</div>
 					</div>
@@ -191,7 +191,7 @@ if(isset($_POST['submit'])){
 					<div class="row cells12">
 						<div class="cell colspan2 padding-top-10 align-right">Nội dung</div>	
 						<div class="cell colspan10 input-control textarea">
-							<textarea name="noidung" id="noidung" placeholder="Nội dung"><?php echo isset($noidung) ? $noidung : ''; ?></textarea>
+							<textarea name="noidung" id="noidung" placeholder=""><?php echo isset($noidung) ? $noidung : ''; ?></textarea>
 						</div>
 					</div>
 					<div class="row cells12">

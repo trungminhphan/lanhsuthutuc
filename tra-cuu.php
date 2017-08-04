@@ -1,9 +1,8 @@
 <?php
 require_once('header.php');
 $vanbanphapquy = new VanBanPhapQuy();
-$doanra_regis = new DoanRa_Regis();
-$doanvao_regis = new DoanVao_Regis();
-$abtc_regis = new ABTC_Regis();
+$doanra_regis = new DoanRa_Regis();$doanvao_regis = new DoanVao_Regis();$abtc_regis = new ABTC_Regis();
+if($users_regis->isLoggedIn()){ $id_user = $users_regis->get_userid();} else { $id_user = ''; }
 $loaihoso='';
 if(isset($_GET['submit'])){
 	$arr_query = array();
@@ -14,16 +13,15 @@ if(isset($_GET['submit'])){
   if($loaihoso == 'XC'){
     $doanra = new DoanRa_Regis();
     $doanra->masohoso = $masohoso;
-    $dr = $doanra->get_one_mshs();
-    if($dr && $dr['status']) $status = $dr['status'];
+    $a = $doanra->get_one_mshs();
+    if($a && $a['status']) $status = $a['status'];
   }
   if($loaihoso == 'NC'){
     $doanvao = new DoanVao_Regis();
     $doanvao->masohoso = $masohoso;
-    $dv = $doanvao->get_one_mshs();
-    if($dv && $dv['status']) $status = $dv['status'];
+    $a = $doanvao->get_one_mshs();
+    if($a && $a['status']) $status = $a['status'];
   }
-
   if($loaihoso == 'ABTC'){
     $abtc = new ABTC_Regis();
     $abtc->masohoso = $masohoso;
@@ -154,6 +152,15 @@ if(isset($_GET['submit'])){
                               echo date("d/m/Y H:i", $status[$count]['date_post']->sec);
                               echo '<br /><b>'. $arr_tinhtrang[$t].'</b>';
                               echo '<br /><br />' . $status[$count]['noidung'];
+                              if($users_regis->isLoggedIn() && $id_user == $a['id_user'] && $t == 1){
+                                if($loaihoso == 'XC'){
+                                  echo '<br /><a href="doanra_regis.html?id='.$a['_id'].'&act=edit" style="color:#ffff00;font-weight:bold;">Bổ sung</a>';
+                                } elseif($loaihoso == 'NC'){
+                                  echo '<br /><a href="doanvao_regis.html?id='.$a['_id'].'&act=edit" style="color:#ffff00;font-weight:bold;">Bổ sung</a>';
+                                } else {
+                                  echo '<br /><a href="abtc_regis.html?id='.$a['_id'].'&act=edit" style="color:#ffff00;font-weight:bold;">Bổ sung</a>';
+                                }
+                              }
                               echo '</div>';
                               $count = $count-1;
                         }
@@ -200,7 +207,7 @@ if(isset($_GET['submit'])){
                           Here's the info about this date
                       </div>
                   </div>-->
-      		<?php else: ?>
+      		<?php elseif(isset($_GET['submit'])): ?>
       			<h2>Không tìm thấy</h2>
       		<?php endif; ?>
       	</div>

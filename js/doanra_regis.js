@@ -1,5 +1,7 @@
 function doanra_regis(){
-	$(".select2").select2();$(".ngaythangnam").inputmask();
+	$(".select2").select2();
+	$("#id_quocgia").select2({ placeholder : ""});
+	$(".ngaythangnam").inputmask();
 	$("#ngaydi").change(function(){
 		var ngaydi = $("#ngaydi").val();
 		var ngayve = $("#ngayve").val();
@@ -31,7 +33,7 @@ function upload_congvanxinphep_regis(){
         data: formData, async: false,
         success: function(datas) {
             if(datas=='Failed'){
-                $.Notify({type: 'alert', caption: 'Thông báo', content: "Không thể Thêm học tập"});
+                $.Notify({type: 'alert', caption: 'Thông báo', content: "Không thể Thêm học tập hoặc không phải tập tin PDF"});
             } else {
             	$(".info").remove();
                 $("#files_congvanxinphep").prepend(datas); delete_file();
@@ -39,7 +41,7 @@ function upload_congvanxinphep_regis(){
       	},
       	cache: false, contentType: false, processData: false
         }).fail(function() {
-            $.Notify({type: 'alert', caption: 'Thông báo', content: "Không thể Upload tập tin"});
+            $.Notify({type: 'alert', caption: 'Thông báo', content: "Không thể Thêm học tập hoặc không phải tập tin PDF"});
         });
 	});
 }

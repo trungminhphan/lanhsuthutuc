@@ -144,7 +144,7 @@ $(document).ready(function(){
 						<input type="text" name="ngaykycongvanxinphep" id="ngaykycongvanxinphep" value="<?php echo isset($ngaykycongvanxinphep) ? $ngaykycongvanxinphep : ''; ?>" placeholder="- Ngày ký công văn xin phép - " data-inputmask="'alias': 'date'" class="ngaythangnam"/>
 					</div>
 					<div class="cell input-control file upload" data-role="input">
-						<input type="file" name="dinhkem_filecongvanxinphep[]" multiple="multiple" class="dinhkem_filecongvanxinphep" accept="*" />
+						<input type="file" name="dinhkem_filecongvanxinphep[]" multiple="multiple" class="dinhkem_filecongvanxinphep" accept="application/pdf" />
 					</div>
 				</div>
 				<div id="files_congvanxinphep">
@@ -199,7 +199,7 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div class="cell input-control file upload" data-role="input">
-						<input type="file" name="dinhkem_filegiaytolienquan[]" multiple="multiple" class="dinhkem_giaytolienquan" accept="*" />
+						<input type="file" name="dinhkem_filegiaytolienquan[]" multiple="multiple" class="dinhkem_giaytolienquan" accept="application/pdf" />
 					</div>
 				</div>
 				<div id="files_giaytolienquan">

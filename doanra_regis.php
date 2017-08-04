@@ -6,10 +6,15 @@ $donvi = new DonVi();$kinhphi = new KinhPhi();
 $donvi_list = $donvi->get_all_list_regis();
 $doanra_regis = new DoanRa_Regis();
 $id_user = $users_regis->get_userid();
-$csrf = new CSRF_Protect();
-$msg = '';
+$csrf = new CSRF_Protect();$msg = '';
+$id = isset($_GET['id']) ? $_GET['id'] : '';
+$act = isset($_GET['act']) ? $_GET['act'] : '';
+$id_donvi = '';
 if(isset($_POST['submit'])){
 	$csrf->verifyRequest();
+	$id = isset($_POST['id']) ? $_POST['id'] : '';
+	$act = isset($_POST['act']) ? $_POST['act'] : '';
+	$id_user_regis = isset($_POST['id_user']) ? $_POST['id_user'] : '';
 	$id_donvi_xinphep_1 = isset($_POST['id_donvi_xinphep_1']) ? $_POST['id_donvi_xinphep_1'] : '';
 	$id_donvi_xinphep_2 = isset($_POST['id_donvi_xinphep_2']) ? $_POST['id_donvi_xinphep_2'] : '';
 	$id_donvi_xinphep_3 = isset($_POST['id_donvi_xinphep_3']) ? $_POST['id_donvi_xinphep_3'] : '';
@@ -62,14 +67,45 @@ if(isset($_POST['submit'])){
 			'id_user' => new MongoId($id_user)
 		);
 		$doanra_regis->status = $arr_tinhtrang;
-		if($doanra_regis->insert()){
-			transfers_to('success_regis.html?masohoso=' . $masohoso . '&act=doanra');
+		if($id && $act == 'edit'){
+			$doanra_regis->id = $id;
+			if($id_user_regis == $id_user){
+				if($doanra_regis->edit()){
+					transfers_to('success_regis.html?masohoso=' . $masohoso . '&act=doanra&edit=edit');
+				} else {
+					$msg = 'Không thể chỉnh sửa';
+				}	
+			} else {
+				$msg = 'Bạn không phải là người đăng ký hồ sơ này';
+			}
 		} else {
-			$msg = 'Không thể đăng ký';
+			if($doanra_regis->insert()){
+				transfers_to('success_regis.html?masohoso=' . $masohoso . '&act=doanra');
+			} else {
+				$msg = 'Không thể đăng ký';
+			}
 		}
 	} else {
 		$msg = 'Mã xác nhận chưa đúng, vui lòng nhập lại';
 	}
+}
+if($id && $act == 'edit'){
+	$doanra_regis->id = $id; $dr = $doanra_regis->get_one();
+	$stt = $dr['stt'];
+	$masohoso = $dr['masohoso'];
+	$id_donvi = $dr['congvanxinphep']['id_donvi'][0];
+	$filecongvanxinphep = $dr['congvanxinphep']['attachments'];
+	$tencongvanxinphep = $dr['congvanxinphep']['ten'];
+	$ngaykycongvanxinphep = date("d/m/Y", $dr['congvanxinphep']['ngayky']->sec);
+	$ngaydi = date("d/m/Y", $dr['ngaydi']->sec);
+	$ngayve = date("d/m/Y", $dr['ngayve']->sec);
+	$songay = $dr['songay'];
+	$id_quocgia = $dr['id_quocgia'];
+	$id_mucdich = $dr['id_mucdich'];
+	$id_kinhphi = $dr['id_kinhphi'];
+	$noidung = $dr['noidung'];
+	$ghichu = $dr['ghichu'];
+	$id_user_regis = $dr['id_user'];
 }
 ?>
 <link href="lanhsu/css/metro.css" rel="stylesheet">
@@ -103,16 +139,20 @@ if(isset($_POST['submit'])){
       		<h2><strong>Đ</strong>ăng ký <span> Xuất Cảnh trực tuyến</span></h2>
       		<hr class="bg-black" />
       		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" id="regis_doanraform" data-role="validator" data-show-required-state="false" enctype="multipart/form-data">
+      		<input type="hidden" name="id" id="id" value="<?php echo isset($id) ? $id : ''; ?>" />
+      		<input type="hidden" name="id_user" id="id_user" value="<?php echo isset($id_user_regis) ? $id_user_regis : ''; ?>" />
+      		<input type="hidden" name="act" id="act" value="<?php echo isset($act) ? $act : ''; ?>" />
       		<?php $csrf->echoInputField(); ?>
 				<div class="grid">
 					<div class="row cells12">
 					<div class="cell colspan2 padding-top-10 align-right">Đơn vị</div>
 						<div class="cell colspan5 input-control margin-top-10" data-role="select">
 							<select name="id_donvi_xinphep_1" id="id_donvi_xinphep_1" class="select2">
+							<option value=""></option>
 							<?php
 								if($donvi_list){
 									foreach ($donvi_list as $dv) {
-										echo '<option value="'.$dv['_id'].'">'.$dv['ten'].'</option>';
+										echo '<option value="'.$dv['_id'].'"'.($id_donvi == $dv['_id'] ? ' selected' : '').'>'.$dv['ten'].'</option>';
 									}
 								}
 							?>
@@ -126,7 +166,7 @@ if(isset($_POST['submit'])){
 							<input type="text" name="ngaykycongvanxinphep" id="ngaykycongvanxinphep" value="<?php echo isset($ngaykycongvanxinphep) ? $ngaykycongvanxinphep : ''; ?>" placeholder="Ngày ký." data-inputmask="'alias': 'date'" class="ngaythangnam"/>
 						</div>
 						<div class="cell input-control file upload" data-role="input">
-							<input type="file" name="dinhkem_filecongvanxinphep[]" multiple="multiple" class="dinhkem_filecongvanxinphep" placeholder="Đính kèm" accept="*" />
+							<input type="file" name="dinhkem_filecongvanxinphep[]" multiple="multiple" class="dinhkem_filecongvanxinphep" placeholder="Đính kèm" accept="application/pdf" />
 						</div>
 					</div>
 					<div id="files_congvanxinphep">
@@ -150,11 +190,11 @@ if(isset($_POST['submit'])){
 					<div class="row cells12">
 						<div class="cell colspan2 padding-top-10 align-right">Ngày đi</div>
 						<div class="cell colspan4 input-control text" data-role="datepicker" data-scheme="darcula" data-format="dd/mm/yyyy">
-							<input type="text" name="ngaydi" id="ngaydi" value="<?php echo isset($ngaydi) ? $ngaydi : '';?>" placeholder="Ngày đi." data-inputmask="'alias': 'date'" class="ngaythangnam"/>
+							<input type="text" name="ngaydi" id="ngaydi" value="<?php echo isset($ngaydi) ? $ngaydi : '';?>" data-inputmask="'alias': 'date'" class="ngaythangnam"/>
 						</div>
 						<div class="cell colspan2 padding-top-10 align-right">Ngày về</div>
 						<div class="cell colspan3 input-control text" data-role="datepicker" data-scheme="darcula" data-format="dd/mm/yyyy">
-							<input type="text" name="ngayve" id="ngayve" value="<?php echo isset($ngayve) ? $ngayve : '';?>" placeholder="Ngày về." data-inputmask="'alias': 'date'" class="ngaythangnam"/>
+							<input type="text" name="ngayve" id="ngayve" value="<?php echo isset($ngayve) ? $ngayve : '';?>" data-inputmask="'alias': 'date'" class="ngaythangnam"/>
 						</div>
 						<div class="cell input-control text">
 							<input type="text" name="songay" id="songay" value="<?php echo isset($songay) ? $songay : 0; ?>" readonly data-validate-func="min" data-validate-arg="1"/>
@@ -164,8 +204,7 @@ if(isset($_POST['submit'])){
 					<div class="row cells12">	
 						<div class="cell colspan2 padding-top-10 align-right">Nước đến</div>
 						<div class="cell colspan4 input-control select">
-							<select name="id_quocgia[]" id="id_quocgia" class="select2" multiple="multiple">
-							<option value="">Chọn Quốc gia</option>
+							<select name="id_quocgia[]" id="id_quocgia" multiple="multiple">
 							<?php
 								$quocgia = new QuocGia();$quocgia_list = $quocgia->get_all_list();
 								if($quocgia_list){
@@ -196,6 +235,7 @@ if(isset($_POST['submit'])){
 						<div class="cell colspan2 padding-top-10 align-right">Kinh phí</div>
 						<div class="cell colspan4 input-control select" data-role="select">
 							<select name="id_kinhphi" id="id_kinhphi" class="select2">
+							<option value=""></option>
 							<?php
 								$kinhphi = new KinhPhi();$kinhphi_list = $kinhphi->get_all_list();
 								if($kinhphi_list){
@@ -211,7 +251,7 @@ if(isset($_POST['submit'])){
 					<div class="row cells12">
 						<div class="cell colspan2 padding-top-10 align-right">Nội dung</div>	
 						<div class="cell colspan10 input-control textarea">
-							<textarea name="noidung" id="noidung" placeholder="Nội dung"><?php echo isset($noidung) ? $noidung : ''; ?></textarea>
+							<textarea name="noidung" id="noidung" ><?php echo isset($noidung) ? $noidung : ''; ?></textarea>
 						</div>
 					</div>
 					<div class="row cells12">

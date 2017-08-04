@@ -23,10 +23,10 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 		            echo '</div>';
 					echo '</div>';
 		            continue; // Skip large files
-		        } elseif(!in_array(strtolower(pathinfo($name, PATHINFO_EXTENSION)), $valid_formats) ){
+		        } elseif(!in_array(strtolower(pathinfo($name, PATHINFO_EXTENSION)), $valid_formats_pdf) ){
 					echo '<div class="row info cells12" style="padding:0px 0px 10px 0px;">';
 					echo '<div class="cell colspan12">';
-					echo '<div class="bg-red padding10 fg-white"><span class="mif-blocked"></span> ' . $name .' không được phép';
+					echo '<div class="bg-red padding10 fg-white"><span class="mif-blocked"></span> ' . $name .' không được phép, vui lòng chọn tập tin PDF';
 					echo '</div>';
 					echo '</div>';
 					continue; // Skip invalid file formats

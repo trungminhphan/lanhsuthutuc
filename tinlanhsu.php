@@ -12,12 +12,18 @@ $tintuc_list = $tintuc->get_all_list();
 	        	<?php
 	        	if($tintuc_list){
 	        		foreach ($tintuc_list as $tt) {
-	        			$hinhanh = isset($tt['hinhanh'][0]['aliasname']) ? $tt['hinhanh'][0]['aliasname'] : '';
 	        			echo '<div class="wrapper tab-content" style="margin-top:10px;">';
 	        			echo '<p class="pad_bot2"><a href="chitiettintuc.php?id='.$tt['_id'].'"><strong>'.$tt['tieude'].'</strong></a></p>';
-	        			if(file_exists($folder_files_public.$hinhanh)){
-	        				echo '<p class="pad_bot1">'.($hinhanh ? '<img src="'.$folder_files_public.$hinhanh.'" style="height:100px;float:left;margin-right:10px;"/>' : '') .$tt['mota'].'</p>';
-	        			}
+						if(isset($tt['hinhanh'][0]['aliasname']) && $tt['hinhanh'][0]['aliasname']) {
+		        			$file = $folder_files_public .  $tt['hinhanh'][0]['aliasname'];
+							$thumb = $folder_files_public . 'thumb/' .  $tt['hinhanh'][0]['aliasname'];
+							if(!file_exists($thumb)){
+								resize_image($file , null, 200, 150, false , $thumb , false , false ,100 );
+							}
+						} else {
+							$thumb = 'images/default.png';
+						}
+						echo '<p class="pad_bot1"><img src="'.$thumb.'" style="float:left;margin-right:10px;"/>'.$tt['mota'].'</p>';
 	        			echo '</div>';
 	        		}
 	        	}
