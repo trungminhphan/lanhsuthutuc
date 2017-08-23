@@ -1,12 +1,12 @@
 <?php require_once('header.php');
 if(!$users_regis->isLoggedIn()){
-    transfers_to('login.html?url='. $_SERVER['REQUEST_URI']);   
+    transfers_to('login.html?url='. $_SERVER['REQUEST_URI']);
 }
 $doanvao_regis = new DoanVao_Regis();$canbo = new CanBo(); $donvi = new DonVi(); $chucvu = new ChucVu();
 $csrf = new CSRF_Protect();
 $donvi = new DonVi();$donvi_list = $donvi->get_all_list_regis();
 $dmdoanvao = new DMDoanVao();
-$id_donvi_tiep='';
+$id_donvi_tiep='';$id_mucdich='';$id_linhvuc='';
 $id_user = $users_regis->get_userid();
 if(isset($_POST['submit'])){
 	$csrf->verifyRequest();
@@ -39,6 +39,7 @@ if(isset($_POST['submit'])){
 	$dmdoanvao->insert();
 
 	$id_mucdich = isset($_POST['id_mucdich']) ? $_POST['id_mucdich'] : '';
+	$id_linhvuc = isset($_POST['$id_linhvuc']) ? $_POST['$id_linhvuc'] : '';
 	$id_donvi_duocphep = isset($_POST['id_donvi_duocphep']) ? $_POST['id_donvi_duocphep'] : '';
 	$tencongvanduocphep = isset($_POST['tencongvanduocphep']) ? $_POST['tencongvanduocphep'] : '';
 	$ngaybanhanhcongvanduocphep = isset($_POST['ngaybanhanhcongvanduocphep']) ? $_POST['ngaybanhanhcongvanduocphep'] : '';
@@ -56,6 +57,7 @@ if(isset($_POST['submit'])){
 		$doanvao_regis->congvanxinphep = $congvanxinphep;
 		$doanvao_regis->id_dmdoanvao = $id_dmdoanvao;
 		$doanvao_regis->id_mucdich = $id_mucdich;
+		$doanvao_regis->$id_linhvuc = $id_linhvuc;
 		$doanvao_regis->ngayden = $ngayden != '' ? new MongoDate(convert_date_dd_mm_yyyy($ngayden)) : '';
 		$doanvao_regis->ngaydi = $ngaydi != '' ? new MongoDate(convert_date_dd_mm_yyyy($ngaydi)) : '';
 		$doanvao_regis->noidung = $noidung;
@@ -177,7 +179,7 @@ if(isset($_POST['submit'])){
 									}
 								}
 							?>
-							<div class="cell colspan3 padding-top-10 align-right">Mục đích</div>	
+							<div class="cell colspan3 padding-top-10 align-right">Mục đích</div>
 							</select>
 						</div>
 						<div class="cell colspan3 input-control text" data-role="datepicker" data-scheme="darcula" data-format="dd/mm/yyyy">
@@ -187,15 +189,30 @@ if(isset($_POST['submit'])){
 							<input type="text" name="ngaydi" id="ngaydi" value="<?php echo isset($ngaydi) ? $ngaydi : '';?>" placeholder="Ngày đi." data-inputmask="'alias': 'date'" class="ngaythangnam"/>
 						</div>
 					</div>
-					
 					<div class="row cells12">
-						<div class="cell colspan2 padding-top-10 align-right">Nội dung</div>	
+						<div class="cell colspan2 padding-top-10 align-right">Lĩnh vực</div>
+						<div class="cell colspan4 input-control select" data-role="select">
+							<select name=id_linhvuc id=id_linhvuc class="select2">
+							<?php
+								$linhvuc = new LinhVuc();$linhvuc_list = $linhvuc->get_all_list();
+								if($linhvuc_list){
+									foreach ($linhvuc_list as $lv) {
+										echo '<option value="'.$lv['_id'].'"'.($id_linhvuc==$lv['_id']?' selected' : '').'>'.$lv['ten'].'</option>';
+									}
+								}
+							?>
+							<div class="cell colspan3 padding-top-10 align-right">Mục đích</div>
+							</select>
+						</div>
+					</div>
+					<div class="row cells12">
+						<div class="cell colspan2 padding-top-10 align-right">Nội dung</div>
 						<div class="cell colspan10 input-control textarea">
 							<textarea name="noidung" id="noidung" placeholder=""><?php echo isset($noidung) ? $noidung : ''; ?></textarea>
 						</div>
 					</div>
 					<div class="row cells12">
-						<div class="cell colspan2 padding-top-10 align-right">Ghi chú</div>	
+						<div class="cell colspan2 padding-top-10 align-right">Ghi chú</div>
 						<div class="cell colspan10 input-control textarea">
 							<textarea name="ghichu" id="ghichu" placeholder="Ghi chú"><?php echo isset($ghichu) ? $ghichu : br2nl('Họ tên: <br />Điện thoại: <br/>Email: '); ?></textarea>
 						</div>
