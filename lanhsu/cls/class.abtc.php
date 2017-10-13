@@ -22,6 +22,9 @@ class ABTC{
 	public function get_one(){
 		return $this->_collection->findOne(array('_id'=> new MongoId($this->id)));
 	}
+	public function get_one_masohoso(){
+		return $this->_collection->findOne(array('masohoso'=> $this->masohoso));
+	}
 	public function get_all_list(){
 		return $this->_collection->find()->sort(array('_id'=> 1));
 	}
@@ -40,7 +43,7 @@ class ABTC{
 					'giaytolienquan' => $this->giaytolienquan,
 					'date_post' => new MongoId(),
 					'id_user' => new MongoId($this->id_user));
-		//logs 
+		//logs
 		$logs = new Logs();
 		$logs->id = new MongoId();
 		$logs->action = 'ADD';
@@ -63,7 +66,7 @@ class ABTC{
 					'ghichu' => $this->ghichu),
 					'id_user' => new MongoId($this->id_user));
 		$condition = array('_id' => new MongoId($this->id));
-		//logs 
+		//logs
 		$logs = new Logs();
 		$logs->id = new MongoId();
 		$logs->action = 'EDIT';
@@ -90,8 +93,8 @@ class ABTC{
 
 	public function check_donvi_chucvu($id_canbo, $id_donvi, $id_chucvu){
 		$query = array('$and'=>array(
-						array('thongtinthanhvien.id_canbo' => new MongoId($id_canbo)), 
-						array('thongtinthanhvien.id_donvi' => new MongoId($id_donvi)), 
+						array('thongtinthanhvien.id_canbo' => new MongoId($id_canbo)),
+						array('thongtinthanhvien.id_donvi' => new MongoId($id_donvi)),
 						array('thongtinthanhvien.id_chucvu' => new MongoId($id_chucvu))));
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
@@ -104,7 +107,7 @@ class ABTC{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function check_dm_donvi($id_donvi){
@@ -115,7 +118,7 @@ class ABTC{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function check_dm_chucvu($id_chucvu){
@@ -123,7 +126,7 @@ class ABTC{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function check_dm_canbo($id_canbo){
@@ -131,7 +134,7 @@ class ABTC{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function get_union_list($start_date, $end_date){
@@ -152,7 +155,7 @@ class ABTC{
 					'ghichu' => $this->ghichu,
 					'date_post' => new MongoId(),
 					'id_user' => new MongoId($this->id_user));
-		//logs 
+		//logs
 		$logs = new Logs();
 		$logs->id = new MongoId();
 		$logs->action = 'ADD';
@@ -160,7 +163,7 @@ class ABTC{
 		$logs->datas = $query;
 		$logs->id_user = $this->id_user;
 		$logs->insert();
-		
+
 		return $this->_collection->insert($query);
 	}
 
@@ -174,7 +177,7 @@ class ABTC{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 }
 ?>

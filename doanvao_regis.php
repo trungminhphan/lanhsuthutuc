@@ -8,6 +8,8 @@ $donvi = new DonVi();$donvi_list = $donvi->get_all_list_regis();
 $dmdoanvao = new DMDoanVao();
 $id_donvi_tiep='';$id_mucdich='';$id_linhvuc='';
 $id_user = $users_regis->get_userid();
+$id = isset($_GET['id']) ? $_GET['id'] : '';
+$act = isset($_GET['act']) ? $_GET['act'] : '';
 if(isset($_POST['submit'])){
 	$csrf->verifyRequest();
 	$id_donvi_xinphep_1 = isset($_POST['id_donvi_xinphep_1']) ? $_POST['id_donvi_xinphep_1'] : '';
@@ -33,13 +35,14 @@ if(isset($_POST['submit'])){
 		'ngayky' => $ngaykycongvanxinphep ? new MongoDate(convert_date_dd_mm_yyyy($ngaykycongvanxinphep)) : '');
 
 	//$id_dmdoanvao = isset($_POST['id_dmdoanvao']) ? $_POST['id_dmdoanvao'] : '';
+	$id_user_regis = isset($_POST['id_user']) ? $_POST['id_user'] : '';
 	$id_dmdoanvao = new MongoId();
 	$tendoan = isset($_POST['tendoan']) ? $_POST['tendoan'] : '';
 	$dmdoanvao->id = $id_dmdoanvao;$dmdoanvao->ten = $tendoan;$dmdoanvao->id_user = $id_user;
 	$dmdoanvao->insert();
 
 	$id_mucdich = isset($_POST['id_mucdich']) ? $_POST['id_mucdich'] : '';
-	$id_linhvuc = isset($_POST['$id_linhvuc']) ? $_POST['$id_linhvuc'] : '';
+	$id_linhvuc = isset($_POST['id_linhvuc']) ? $_POST['id_linhvuc'] : '';
 	$id_donvi_duocphep = isset($_POST['id_donvi_duocphep']) ? $_POST['id_donvi_duocphep'] : '';
 	$tencongvanduocphep = isset($_POST['tencongvanduocphep']) ? $_POST['tencongvanduocphep'] : '';
 	$ngaybanhanhcongvanduocphep = isset($_POST['ngaybanhanhcongvanduocphep']) ? $_POST['ngaybanhanhcongvanduocphep'] : '';
@@ -57,7 +60,7 @@ if(isset($_POST['submit'])){
 		$doanvao_regis->congvanxinphep = $congvanxinphep;
 		$doanvao_regis->id_dmdoanvao = $id_dmdoanvao;
 		$doanvao_regis->id_mucdich = $id_mucdich;
-		$doanvao_regis->$id_linhvuc = $id_linhvuc;
+		$doanvao_regis->id_linhvuc = $id_linhvuc;
 		$doanvao_regis->ngayden = $ngayden != '' ? new MongoDate(convert_date_dd_mm_yyyy($ngayden)) : '';
 		$doanvao_regis->ngaydi = $ngaydi != '' ? new MongoDate(convert_date_dd_mm_yyyy($ngaydi)) : '';
 		$doanvao_regis->noidung = $noidung;
@@ -72,14 +75,46 @@ if(isset($_POST['submit'])){
 			'id_user' => new MongoId($id_user)
 		);
 		$doanvao_regis->status = $arr_tinhtrang;
-		if($doanvao_regis->insert()){
-			transfers_to('success_regis.html?masohoso='.$masohoso . '&act=doanvao');
+		if($id && $act == 'edit'){
+			$doanvao_regis->id = $id;
+			if($id_user_regis == $id_user){
+				if($doanvao_regis->edit()){
+					transfers_to('success_regis.html?masohoso=' . $masohoso . '&act=doanvao&edit=edit');
+				} else {
+					$msg = 'Không thể chỉnh sửa';
+				}
+			} else {
+				$msg = 'Bạn không phải là người đăng ký hồ sơ này';
+			}
 		} else {
-			$msg = 'Không thể đăng ký.';
+			if($doanvao_regis->insert()){
+				transfers_to('success_regis.html?masohoso='.$masohoso . '&act=doanvao');
+			} else {
+				$msg = 'Không thể đăng ký.';
+			}
 		}
 	} else {
 		$msg = 'Mã xác nhận chưa đúng, vui lòng nhập lại';
 	}
+}
+if($id && $act == 'edit'){
+	$doanvao_regis->id = $id; $dv = $doanvao_regis->get_one();
+	$stt = $dv['stt'];
+	$masohoso = $dv['masohoso'];
+	$id_donvi = $dv['congvanxinphep']['id_donvi'][0];
+	$filecongvanxinphep = $dv['congvanxinphep']['attachments'];
+	$tencongvanxinphep = $dv['congvanxinphep']['ten'];
+	$ngaykycongvanxinphep = date("d/m/Y", $dv['congvanxinphep']['ngayky']->sec);
+	$ngayden = $dv['ngayden'] ? date("d/m/Y", $dv['ngayden']->sec)  : '';
+	$ngaydi = $dv['ngaydi'] ? date("d/m/Y", $dv['ngaydi']->sec)  : '';
+	$id_mucdich = isset($dv['id_mucdich']) ? $dv['id_mucdich'] : '';
+	$id_linhvuc = isset($dv['id_linhvuc']) ? $dv['id_linhvuc'] : '';
+	$id_kinhphi = isset($dv['id_kinhphi']) ? $dv['id_kinhphi'] : '';
+	$noidung = $dv['noidung'];
+	$ghichu = $dv['ghichu'];
+	$id_user_regis = $dv['id_user'];
+	$dmdoanvao->id = $dv['id_dmdoanvao']; $dmdv = $dmdoanvao->get_one();
+	$tendoan = $dmdv['ten'];
 }
 ?>
 <link href="lanhsu/css/metro.css" rel="stylesheet">
@@ -112,6 +147,9 @@ if(isset($_POST['submit'])){
       		<h2 class="color2"><strong>Đ</strong>ăng ký <span> tiếp khác nước ngoài trực tuyến</span></h2>
       		<hr class="bg-black" />
       		<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST" id="themdoanvaoform" data-role="validator" data-show-required-state="false" enctype="multipart/form-data">
+      		<input type="hidden" name="id" id="id" value="<?php echo isset($id) ? $id : ''; ?>" />
+      		<input type="hidden" name="id_user" id="id_user" value="<?php echo isset($id_user_regis) ? $id_user_regis : ''; ?>" />
+      		<input type="hidden" name="act" id="act" value="<?php echo isset($act) ? $act : ''; ?>" />
       			<?php $csrf->echoInputField(); ?>
 				<input type="hidden" name="id" id="id" value="<?php echo isset($id) ? $id : ''; ?>" />
 				<div class="grid">
@@ -163,7 +201,7 @@ if(isset($_POST['submit'])){
 					<div class="row cells12">
 						<div class="cell colspan2 padding-top-10 align-right">Tên đoàn</div>
 						<div class="cell colspan10 input-control text">
-							<input type="text" name="tendoan" id="tendoan" value="<?php echo isset($tendoan) ? $tendoan : ''; ?>" placeholder="" data-validate-func="required"/>
+							<input type="text" name="tendoan" id="tendoan" value="<?php echo isset($tendoan) ? $tendoan : ''; ?>" placeholder="" data-validate-func="required" <?php echo $id ? 'disabled' : ''; ?>/>
 							<span class="input-state-error mif-warning"></span><span class="input-state-success mif-checkmark"></span>
 						</div>
 					</div>

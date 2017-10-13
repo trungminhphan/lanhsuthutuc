@@ -2,31 +2,50 @@
 require_once('header.php');
 $vanbanphapquy = new VanBanPhapQuy();
 $doanra_regis = new DoanRa_Regis();$doanvao_regis = new DoanVao_Regis();$abtc_regis = new ABTC_Regis();
+if(!$users_regis->isLoggedIn()){
+    transfers_to('login.html?url='. $_SERVER['REQUEST_URI']);
+}
 if($users_regis->isLoggedIn()){ $id_user = $users_regis->get_userid();} else { $id_user = ''; }
+$users_regis->id = $id_user; $u = $users_regis->get_one();
 $loaihoso='';
 if(isset($_GET['submit'])){
 	$arr_query = array();
 	$masohoso = isset($_GET['masohoso']) ? $_GET['masohoso'] : '';
 	//$loaihoso = isset($_GET['loaihoso']) ? $_GET['loaihoso'] : '';
-  $a = explode("-", $masohoso);
+  $a = explode("-", trim($masohoso));
   $loaihoso = end($a);
   if($loaihoso == 'XC'){
     $doanra = new DoanRa_Regis();
     $doanra->masohoso = $masohoso;
-    $a = $doanra->get_one_mshs();
-    if($a && $a['status']) $status = $a['status'];
+    $doanra->id_user = $id_user;
+    if($u['email'] == 'songoaivu@gmail.com' || $u['email'] == 'songoaivu2017@gmail.com'){
+      $a = $doanra->get_one_mshs_admin();
+    } else {
+      $a = $doanra->get_one_mshs();
+    }
+    if($a && isset($a['status'])) $status = $a['status']; else $status = '';
   }
   if($loaihoso == 'NC'){
     $doanvao = new DoanVao_Regis();
     $doanvao->masohoso = $masohoso;
-    $a = $doanvao->get_one_mshs();
-    if($a && $a['status']) $status = $a['status'];
+    $doanvao->id_user = $id_user;
+    if($u['email'] == 'songoaivu@gmail.com' || $u['email'] == 'songoaivu2017@gmail.com'){
+      $a = $doanvao->get_one_mshs_admin();
+    } else {
+      $a = $doanvao->get_one_mshs();
+    }
+    if($a && isset($a['status'])) $status = $a['status']; else $status = '';
   }
   if($loaihoso == 'ABTC'){
     $abtc = new ABTC_Regis();
     $abtc->masohoso = $masohoso;
-    $a = $abtc->get_one_mshs();
-    if($a && $a['status']) $status = $a['status'];
+    $abtc->id_user = $id_user;
+    if($u['email'] == 'songoaivu@gmail.com' || $u['email'] == 'songoaivu2017@gmail.com'){
+      $a = $abtc->get_one_mshs_admin();
+    } else {
+      $a = $abtc->get_one_mshs();
+    }
+    if($a && isset($a['status'])) $status = $a['status']; else $status = '';
   }
 }
 ?>
@@ -34,7 +53,7 @@ if(isset($_GET['submit'])){
 <link href="lanhsu/css/metro-icons.css" rel="stylesheet">
 <link href="lanhsu/css/metro-responsive.css" rel="stylesheet">
 <link href="lanhsu/css/metro-schemes.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="../lanhsu/css/style.css">
+<link rel="stylesheet" type="text/css" href="lanhsu/css/style.css">
 <script src="lanhsu/js/metro.js"></script>
 <style type="text/css">
 .timeline {
@@ -67,7 +86,7 @@ if(isset($_GET['submit'])){
       background:green !important;
 }
 .failed{
-      background:red !important;     
+      background:red !important;
 }
 
 .entry:after {
@@ -138,8 +157,7 @@ if(isset($_GET['submit'])){
       				</div>
       			</div>
       		</form>
-      		<?php if(isset($status) && $status): 
-      		      if(isset($status) && $status){
+      		<?php if(isset($status) && $status):
                         echo '<div class="bar"></div>';
                         echo '<div class="timeline">';
                         $count = count($status)-1;
@@ -170,9 +188,7 @@ if(isset($_GET['submit'])){
                               echo $arr_tinhtrang[$value['t']];
                               echo '</div>';
                         }*/
-                        
-                        
-                  }
+
       		/*foreach ($vanban_list as $vb) {
       			$linhvuc->id = $vb['id_linhvuc']; $lv = $linhvuc->get_one();
       			$donvi->id = $vb['id_coquanbanhanh']; $cq = $donvi->get_one();

@@ -31,8 +31,12 @@ class DoanRa{
 	public function get_one(){
 		return $this->_collection->findOne(array('_id'=> new MongoId($this->id)));
 	}
+
+	public function get_one_masohoso(){
+		return $this->_collection->findOne(array('masohoso'=> $this->masohoso));
+	}
 	public function get_all_list(){
-		return $this->_collection->find()->sort(array('_id'=> 1));
+		return $this->_collection->find()->sort(array('ngaydi'=> -1, 'ngayve' =>1));
 	}
 	public function get_list_condition($condition){
 		return $this->_collection->find($condition)->sort(array('_id'=> 1));
@@ -59,7 +63,7 @@ class DoanRa{
 			'date_post' => new MongoDate(),
 			'id_user' => new MongoId($this->id_user)
 			);
-		//logs 
+		//logs
 		$logs = new Logs();
 		$logs->id = new MongoId();
 		$logs->action = 'ADD';
@@ -91,7 +95,7 @@ class DoanRa{
 							'ghichu' => $this->ghichu,
 							'id_user' => new MongoId($this->id_user)));
 		$condition = array('_id' => new MongoId($this->id));
-		//logs 
+		//logs
 		$logs = new Logs();
 		$logs->id = new MongoId();
 		$logs->action = 'EDIT';
@@ -118,7 +122,7 @@ class DoanRa{
 	public function check_donvi_chucvu($id_canbo, $id_donvi, $id_chucvu){
 		$arr_donvi = explode(",", $id_donvi);
 		$query = array('$and'=>array(
-						array('danhsachdoan.id_canbo' => new MongoId($id_canbo)), 
+						array('danhsachdoan.id_canbo' => new MongoId($id_canbo)),
 						array('danhsachdoan.id_donvi.0' => $arr_donvi[0]),
 						array('danhsachdoan.id_donvi.1' => $arr_donvi[1]),
 						array('danhsachdoan.id_donvi.2' => $arr_donvi[2]),
@@ -135,7 +139,7 @@ class DoanRa{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function check_dm_donvi($id_donvi){
@@ -147,7 +151,7 @@ class DoanRa{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function check_dm_chucvu($id_chucvu){
@@ -171,7 +175,7 @@ class DoanRa{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function check_canbo_donvi($id_canbo, $id_donvi, $id_chucvu){
@@ -187,7 +191,7 @@ class DoanRa{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function check_dm_kinhphi($id_kinhphi){
@@ -195,7 +199,7 @@ class DoanRa{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	/*public function get_union_list($start_date, $end_date){
@@ -231,7 +235,7 @@ class DoanRa{
 			'date_post' => new MongoDate(),
 			'id_user' => new MongoId($this->id_user)
 		);
-		//logs 
+		//logs
 		$logs = new Logs();
 		$logs->id = new MongoId();
 		$logs->action = 'ADD';
@@ -252,7 +256,7 @@ class DoanRa{
 		$fields = array('_id' => true);
 		$result = $this->_collection->findOne($query, $fields);
 		if($result['_id']) return true;
-		else return false;	
+		else return false;
 	}
 
 	public function count_sodoan($query){
@@ -363,7 +367,7 @@ class DoanRa{
 	public function unset_danhsachdoan($danhsachdoan, $key){
 		$condition = array('_id' => new MongoId($this->id));
 		$query = array('$unset' => array($danhsachdoan .'.'. $key => true));
-		return $this->_collection->update($condition, $query);	
+		return $this->_collection->update($condition, $query);
 	}
 
 	public function unset_danhsachdoan_all($danhsachdoan){
@@ -375,7 +379,7 @@ class DoanRa{
 	public function pull_danhsachdoan($danhsachdoan, $key){
 		$condition = array('_id' => new MongoId($this->id));
 		$query = array('$pull' => array($danhsachdoan  => null));
-		return $this->_collection->update($condition, $query);	
+		return $this->_collection->update($condition, $query);
 	}
 }
 ?>

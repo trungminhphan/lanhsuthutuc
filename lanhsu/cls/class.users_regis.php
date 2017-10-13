@@ -3,7 +3,7 @@ class Users_Regis{
 	const COLLECTION = 'users_regis';
 	private $_mongo;
 	private $_collection;
-	
+
 	public $id = '';
 	public $email = '';
 	public $password = '';
@@ -50,7 +50,19 @@ class Users_Regis{
 						'dienthoai' => $this->dienthoai,
 						'date_post_regis' => new MongoDate()
 					);
-		return $this->_collection->insert($query);	
+		return $this->_collection->insert($query);
+	}
+
+	public function changes_info(){
+		$query = array('$set' => array(
+						'password' => md5($this->password),
+						'hoten' => $this->hoten,
+						'donvi' => $this->donvi,
+						'chucvu' => $this->chucvu,
+						'dienthoai' => $this->dienthoai
+					));
+		$condition = array('_id' => new MongoId($this->id));
+		return $this->_collection->update($condition, $query);
 	}
 
 	public function edit(){
@@ -71,7 +83,7 @@ class Users_Regis{
 						'id_user' => $this->id_user ? new MongoId($this->id_user) : ''));
 
 		$condition = array('_id' => new MongoId($this->id));
-		return $this->_collection->update($condition, $query);	
+		return $this->_collection->update($condition, $query);
 	}
 
 	public function delete(){

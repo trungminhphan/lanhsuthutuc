@@ -21,11 +21,11 @@
 	//$g_config['admin_user'] = 'admin';
 	//$g_config['admin_password'] = MD5('pmtrung');
 	//$g_config['admin_password'] = '6701a36f285636bfbf4afc07bed8fc0c';
-	
+
 	//$hash_password["crypt"] = 'MD5';
 	//$hash_password["password"] = 'PASSWORD';
 	//$hash_password[""] = 'PLAIN_TEXT';
-	
+
 	//smtp config for send mail
 	$items_per_group = 30;
 	$items_per_group_dicu = 30;
@@ -38,6 +38,8 @@
 	$target_images = 'uploads/images/';
 	$target_files_public = '../lanhsuthutuc/uploads/';
 	$folder_files_public = 'uploads/';
+	$copy_desc = '/var/www/html/lanhsu/uploads/files/';
+
 	$files_extension = array('pdf', 'zip', 'rar', 'doc', 'docx', 'xls', 'png', 'gif', 'jpg', 'jpeg', 'bmp', 'rtf');
 	$images_extension = array('png', 'gif', 'jpg', 'jpeg', 'bmp');
 	$valid_formats = array("jpg", "png", "gif", "zip", "bmp", "doc", "docx", "pdf", "xls", "xlsx", "ppt", "pptx", 'zip', 'rar');

@@ -30,16 +30,27 @@ class DoanRa_Regis{
 	public function get_one(){
 		return $this->_collection->findOne(array('_id'=> new MongoId($this->id)));
 	}
+
 	public function get_one_mshs(){
-		return $this->_collection->findOne(array('masohoso'=> $this->masohoso));	
+		return $this->_collection->findOne(array('masohoso'=> $this->masohoso, 'id_user' => new MongoId($this->id_user)));
 	}
+
+	public function get_one_mshs_admin(){
+		return $this->_collection->findOne(array('masohoso'=> $this->masohoso));
+	}
+
+	public function get_list_to_user(){
+			return $this->_collection->find(array('id_user' => new MongoId($this->id_user)));
+	}
+
 	public function get_all_list(){
 		return $this->_collection->find()->sort(array('status'=> 1, 'date_post' => -1));
 	}
+
 	public function get_list_condition($condition){
 		return $this->_collection->find($condition)->sort(array('_id'=> 1));
 	}
-	
+
 	public function insert(){
 		$query = array(
 			'stt' => intval($this->stt),
@@ -60,7 +71,10 @@ class DoanRa_Regis{
 	}
 
 	public function edit(){
-		$query = array('$set'=> array(
+		$condition = array('_id' => new MongoId($this->id));
+		$query = array('$set' => array(
+			'stt' => intval($this->stt),
+			'masohoso' => $this->masohoso,
 			'congvanxinphep' => $this->congvanxinphep,
 			'ngaydi' => $this->ngaydi,
 			'ngayve' => $this->ngayve,
@@ -71,14 +85,13 @@ class DoanRa_Regis{
 			'noidung' => $this->noidung,
 			'ghichu' => $this->ghichu,
 			'id_user' => new MongoId($this->id_user)));
-		$condition = array('_id' => new MongoId($this->id));
 		return $this->_collection->update($condition, $query);
 	}
 
 	public function set_status($status){
 		$query = array('$set' => array('status' => $status));
 		$condition = array('_id' => new MongoId($this->id));
-		return $this->_collection->update($condition, $query);	
+		return $this->_collection->update($condition, $query);
 	}
 
 	public function count_status_0(){
@@ -108,6 +121,12 @@ class DoanRa_Regis{
 
 	public function push_tinhtrang(){
 		$query = array('$push' => array('status' => array('$each' => array($this->status), '$position' => 0)));
+		$condition = array('_id' => new MongoId($this->id));
+		return $this->_collection->update($condition, $query);
+	}
+
+	public function edit_trinhtrang($key){
+		$query = array('$set' => array('status.'.$key => $this->status));
 		$condition = array('_id' => new MongoId($this->id));
 		return $this->_collection->update($condition, $query);
 	}

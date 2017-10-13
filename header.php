@@ -41,9 +41,8 @@ $users_regis = new Users_Regis();
 	        <li <?php echo $active_menu == 'gioi_thieu' ? 'id="menu_active"' : ''; ?>><a href="gioi-thieu.html?active=gioi_thieu">Giới thiệu</a></li>
 	        <li <?php echo $active_menu == 'tin_lanh_su' ? 'id="menu_active"' : ''; ?>><a href="tinlanhsu.html?active=tin_lanh_su">Tin lãnh sự</a></li>
 	        <li <?php echo $active_menu == 'vanban' ? 'id="menu_active"' : ''; ?>><a href="vanbanphapquy.html?active=vanban">Văn bản</a></li>
-	        <li <?php echo $active_menu == 'tra_cuu' ? 'id="menu_active"' : ''; ?>><a href="tra-cuu.html?active=tra_cuu">Tra cứu</a></li>
 	        <?php if($users_regis->isLoggedIn()): ?>
-	        	<li><a href="logout.html">Đăng xuất</a></li>
+	        	<li <?php echo $active_menu == 'taikhoan' ? 'id="menu_active"' : ''; ?>><a href="taikhoan.html?active=taikhoan">Tài khoản</a></li>
 	        <?php else: ?>
 	        <li <?php echo $active_menu == 'login' ? 'id="menu_active"' : ''; ?>><a href="login.html?active=login">Đăng nhập</a></li>
 	    	<?php endif; ?>
